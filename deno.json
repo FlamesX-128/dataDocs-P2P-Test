@@ -1,0 +1,14 @@
+{
+  "exclude": [
+    "dist",
+    "node_modules"
+  ],
+  "importMap": "importMap.json",
+  "tasks": {
+    "bundle": "sh mod.sh",
+    "esm:add": "deno run -A https://esm.sh/v132 add",
+    "esm:update": "deno run -A https://esm.sh/v132 update",
+    "esm:remove": "deno run -A https://esm.sh/v132 remove",
+    "start": "deno run dist/deno.js"
+  }
+}
