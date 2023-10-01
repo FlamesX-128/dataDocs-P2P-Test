@@ -1,5 +1,5 @@
-import { excludeObjectProperties } from '../tools/mod.js'
-import { Signature } from './mod.js'
+import { excludeObjectProperties } from '../tools/mod.ts'
+import { Signature } from './mod.ts'
 
 interface INode {
     _signature: Signature

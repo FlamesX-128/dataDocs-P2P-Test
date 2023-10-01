@@ -1,5 +1,5 @@
-import { excludeObjectProperties } from '../tools/mod.js'
-import { Content, Signature } from './mod.js'
+import { excludeObjectProperties } from '../tools/mod.ts'
+import { Content, Signature } from './mod.ts'
 
 interface IComment {
     // The public key is the same as the author

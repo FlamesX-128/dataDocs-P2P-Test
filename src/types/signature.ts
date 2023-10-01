@@ -1,19 +1,18 @@
-import { excludeObjectProperties } from "../tools/mod.js"
+import { excludeObjectProperties } from "../tools/mod.ts"
 
 interface ISignature {
-    data: string
+    hash: string
     privateKey?: string
     publicKey: string
 }
 
 class Signature implements ISignature {
+    public readonly hash: string
     public readonly privateKey?: string
-
-    public readonly data: string
     public readonly publicKey: string
 
     constructor(content: ISignature) {
-        this.data = content.data
+        this.hash = content.hash
         this.privateKey = content.privateKey
         this.publicKey = content.publicKey
     }

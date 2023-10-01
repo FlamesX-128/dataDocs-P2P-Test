@@ -1,5 +1,5 @@
-import { excludeObjectProperties } from '../tools/mod.js'
-import { Content, Signature } from './mod.js'
+import { excludeObjectProperties } from '../tools/mod.ts'
+import { Content, Comment, Signature } from './mod.ts'
 
 enum PostType {
     Banner,

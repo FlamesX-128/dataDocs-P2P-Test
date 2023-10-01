@@ -1,1 +1,1 @@
-export * from './instances.js'
+export * from './instances.ts'

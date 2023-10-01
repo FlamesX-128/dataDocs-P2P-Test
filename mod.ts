@@ -1,26 +1,89 @@
-// @deno-types="npm:@types/node-forge"
-import forge from 'node-forge'
+import { StandardWebSocketClient, WebSocketClient, WebSocketServer } from 'websocket'
+import { Signature } from "./src/types/mod.ts";
 
-const publicKey = 'LS0tLS1CRUdJTiBSU0EgUFVCTElDIEtFWS0tLS0tCk1JSUJJakFOQmdrcWhraUc5dzBCQVFFRkFBT0NBUThBTUlJQkNnS0NBUUVBenA4aDYzQ2ErWnhWVGs4RWk5Y3MKOTZlYVhsQ25KMW9icGcxWi9FanFyWTN5VDFkeGtEVHFjR29OYjVnV3ZnOEdvT1dUdXEwVUxyWlhqWm9ZUFV0Swp1T21CTFpOTjVOVFoyc0ZCam8rb2RWdk90alhvSFo3NjdwU1dOMmpqZnJiWFp6eFE2L1RCZEVJR3lObm0vcjgwCkdoL0xqT0VUcWgyU1dMMjVXMkZ3emgyY0RjR21oVWJsdHRJNVFWcU9MVEh0WERGaE1pVGQzaW5YdFo4Zk03U3IKdFpnUzUycVlXOFYweUdMTE1YNmJwU1ZFeWQ2bmZidStRMkZHSklSY3ZLQkVmaEdQY3ptVEJjL1RsVmNJRCtBaAo1dWQwVHhiYmpwUHVVQ3JWdFlkWU9SUnFGTEdrZVR4YXZOQUg2UGI0THN5REFOYUxYa0w0VnlnZlFNNDlJQmR3CnZ3SURBUUFCCi0tLS0tRU5EIFJTQSBQVUJMSUMgS0VZLS0tLS0K';
+enum MessageType {
+    ResponseNodes,
+    RequestNodes,
 
-/** 
- * @returns {string}
- */
-function RSAEncryption() {
-    const publicKeyObject = forge.pki.publicKeyFromPem(
-        forge.util.decode64(publicKey)
-    );
+    ResponseNode,
+    RequestNode,
 
-    const result = publicKeyObject.encrypt(
-        'abc', 'RSA-OAEP',
-        {
-            md: forge.md.sha256.create()
-        }
-    );
-
-    return forge.util.encode64(result);
+    NodeAuth,
 }
 
-console.log(
-    RSAEncryption()
-)
+interface IMessage {
+    type: MessageType
+    data: null
+}
+
+class Message <T extends object> {
+    public readonly type: MessageType
+    public readonly data: T
+    
+    constructor(type: MessageType, data: T) {
+        this.type = type
+        this.data = data
+    }
+}
+
+interface INode {
+    signature: string,
+    publicKey: string,
+}
+
+class Node implements INode {
+    public readonly signature: string
+    public readonly publicKey: string
+
+    public readonly _ws: WebSocketClient
+
+    constructor(ws: WebSocketClient, node: INode) {
+        this.signature = node.signature
+        this.publicKey = node.publicKey
+
+        this._ws = ws
+    }
+}
+
+class Application {
+    private readonly externalClients: WebSocketClient[] = []
+    private readonly internalClients: WebSocketClient[] = []
+    private readonly server: WebSocketServer
+
+    private readonly nodes: Map<string, Node> = new Map()
+
+    constructor(port: number) {
+        this.server = new WebSocketServer(port)
+
+        this.server.on('connection', this.onServerConnection)
+        this.server.on('error', this.onServerError)
+    }
+
+    // - - - Server - - -
+    onRequestNodes(ws: WebSocketClient, node: Node, msg: IMessage) {
+
+    }
+
+    onRequestNode(ws: WebSocketClient, node: Node, msg: IMessage) {}
+
+    // - - - Server - - -
+    onServerConnection(ws: WebSocketClient) {
+        let node: Node
+
+        const onMessage = (message: string) => {
+            const msg = JSON.parse(message) as IMessage
+
+            switch (msg.type) {
+                case MessageType.NodeAuth:
+
+
+                default:
+                    break
+            }
+        }
+
+        ws.on('message', onMessage)
+    }
+
+    onServerError(err: unknown) { }
+}

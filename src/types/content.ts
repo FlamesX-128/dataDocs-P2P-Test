@@ -1,4 +1,4 @@
-import { PostType } from './mod.js'
+import { PostType } from './mod.ts'
 
 interface IContent<T extends PostType = any> {
     type: T

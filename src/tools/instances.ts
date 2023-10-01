@@ -1,4 +1,5 @@
-function excludeObjectProperties<T extends Object>(this: T, ...keys: string[]): T {
+// deno-lint-ignore-file no-explicit-any
+function excludeObjectProperties<T extends object>(this: T, ...keys: string[]): T {
     return Object.entries(this).reduce((acc, [key, value]) =>
         keys.includes(key)
             ? acc
