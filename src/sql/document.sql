@@ -12,10 +12,10 @@ CREATE TABLE Document
     updatedAt INT NOT NULL,
 }
 
-CREATE TABLE DocumentAuthors
+CREATE TABLE DocumentOwners
 {
     documentId VARCHAR(512) NOT NULL,
-    authorId VARCHAR(512) NOT NULL,
+    ownerId VARCHAR(512) NOT NULL,
 }
 
 CREATE TABLE DocumentContent
